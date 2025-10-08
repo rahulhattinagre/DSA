@@ -1,0 +1,274 @@
+#include <iostream> 
+#include <string> 
+using namespace std; 
+ 
+struct Node { 
+    string key; 
+    string val; 
+    Node* left; 
+    Node* right; 
+}; 
+ 
+class Dictionary { 
+public: 
+    Node* root; 
+    Dictionary() {  
+        root = NULL; 
+    } 
+    void createNode() { 
+        Node* temp = new Node; 
+        cout << "Enter Key :"; 
+        cin >> temp->key ; 
+        cout<<"Enter Value :"; 
+        cin >> temp->val; 
+        temp->left = NULL; 
+        temp->right=NULL; 
+        if (root == NULL) { 
+            root = temp; 
+        } else { 
+            InsertNode(temp, root); 
+        } 
+    } 
+ 
+    void InsertNode(Node* temp, Node* root) { 
+        if (root->key > temp->key) { 
+            if (root->left == NULL) { 
+                root->left = temp; 
+            } else { 
+                InsertNode(temp, root->left); 
+            } 
+        } else { 
+            if (root->right == NULL) { 
+                root->right = temp; 
+            } else { 
+                InsertNode(temp, root->right); 
+            } 
+        } 
+    } 
+     
+    void Display(Node* root) { 
+        if(root==NULL){ 
+          return; 
+        } 
+        Display(root->left); 
+        cout<<root->key<<" "<<root->val<<endl; 
+        Display(root->right); 
+    } 
+     
+    void Search(Node* root){ 
+        int count=0; 
+        if(root==NULL){ 
+         cout<<"root is NULL "; 
+         return; 
+        } 
+        string key; 
+        cout<<"Enter Key :"; 
+        cin>>key; 
+        Node* temp=root; 
+        while(temp!=NULL){ 
+          if(temp->key==key){ 
+          count++; 
+          cout<<temp->key<<" "<<temp->val<<endl; 
+          cout<<"Number of comparisions :"<<count<<endl; 
+          return; 
+         } 
+          else if(temp->key<key){ 
+             count++; 
+             temp=temp->right; 
+          }else{ 
+             count++; 
+             temp=temp->left; 
+          } 
+        } 
+        cout<<"Key not found"; 
+    } 
+         
+    void Update(Node* root, string key, string newVal){ 
+     if(root->key==key){ 
+       root->val=newVal; 
+     }else if(root->key>key){ 
+        Update(root->left,key,newVal); 
+      }else{ 
+        Update(root->right,key,newVal); 
+      } 
+    } 
+     
+    Node* Delete(Node* root, string key) { 
+        if (root == NULL) return root; 
+        if (key < root->key) { 
+            root->left = Delete(root->left, key); 
+        } else if (key > root->key) { 
+            root->right = Delete(root->right, key); 
+        } else { 
+            if (root->left == NULL) { 
+                Node* temp = root->right; 
+                delete root; 
+                return temp; 
+            } else if (root->right == NULL) { 
+                Node* temp = root->left; 
+                delete root; 
+                return temp; 
+            } 
+            Node* temp = MinValueNode(root->right); 
+            root->key = temp->key; 
+            root->val = temp->val; 
+            root->right = Delete(root->right, temp->key); 
+        } 
+        return root; 
+    } 
+     
+    Node* MinValueNode(Node* node) { 
+        Node* current = node; 
+        while (current && current->left != NULL) { 
+            current = current->left; 
+        } 
+        return current; 
+    } 
+}; 
+ 
+int main() { 
+    Dictionary obj; 
+    int choice; 
+    string key, newVal; 
+    do { 
+        cout << "\n1. Insert Node\n2. Display Dictionary\n3. Search Key\n4. Update Value\n5. 
+Delete Node\n6. Exit\nEnter choice: "; 
+        cin >> choice; 
+        switch (choice) { 
+            case 1: 
+                obj.createNode(); 
+                break; 
+            case 2: 
+                obj.Display(obj.root); 
+                break; 
+            case 3: 
+                obj.Search(obj.root); 
+                break; 
+            case 4: 
+                cout << "Enter Key to Update: "; 
+                cin >> key; 
+                cout << "Enter New Value: "; 
+                cin >> newVal; 
+                obj.Update(obj.root, key, newVal); 
+                break; 
+            case 5: 
+                cout << "Enter Key to Delete: "; 
+                cin >> key; 
+                obj.root = obj.Delete(obj.root, key); 
+                break; 
+            case 6: 
+                cout << "Exiting..."; 
+                break; 
+            default: 
+                cout << "Invalid choice, try again."; 
+        } 
+    } while (choice != 6); 
+    return 0; 
+} 
+ 
+ 
+ 
+ 
+Output : 
+PS G:\4th Sem\DSA\Pratical\output> & .\'pr7.exe' 
+ 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 1 
+Enter Key :1 
+Enter Value :Rahul 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 1 
+Enter Key :73 
+Enter Value :Sahil 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 1 
+Enter Key :71 
+Enter Value :Rahul 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 2 
+80 Rahul 
+73 Sahil 
+71 Anil 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 3 
+Enter Key :80 
+80 Rahul 
+Number of comparisions :1 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 3 
+Enter Key :14 
+Key not found 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 4 
+Enter Key to Update: 71 
+Enter New Value: Anil 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 2 
+80 Rahul 
+73 Sahil 
+71 Anil 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 5 
+Enter Key to Delete: 71 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 2 
+80 Rahul 
+73 Sahil 
+1. Insert Node 
+2. Display Dictionary 
+3. Search Key 
+4. Update Value 
+5. Delete Node 
+6. Exit 
+Enter choice: 6 
+Exiting... 
