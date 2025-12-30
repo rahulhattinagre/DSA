@@ -325,5 +325,4 @@ Menu:
 6. Inorder Display 
 7. Level Order Display 
 8. Exit 
-Enter your choice: 8 Exiting... 
-student@student-OptiPlex-3010:~/Local$  
+Enter your choice: 8 Exiting...   
