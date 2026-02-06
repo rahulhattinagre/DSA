@@ -169,16 +169,6 @@ Delete Node\n6. Exit\nEnter choice: ";
  
  
  
-Output : 
-PS G:\4th Sem\DSA\Pratical\output> & .\'pr7.exe' 
- 
-1. Insert Node 
-2. Display Dictionary 
-3. Search Key 
-4. Update Value 
-5. Delete Node 
-6. Exit 
-Enter choice: 1 
 Enter Key :1 
 Enter Value :Rahul 
 1. Insert Node 
